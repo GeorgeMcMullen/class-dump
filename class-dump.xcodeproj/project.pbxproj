@@ -118,6 +118,24 @@
 		01B02D2D13A5B57E0047BC53 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 013D1F0B13A5ADC300BF0A67 /* libcrypto.dylib */; };
 		01B02D3A13A5B72B0047BC53 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 013D1F0B13A5ADC300BF0A67 /* libcrypto.dylib */; };
 		01EB826413A590D9003EDE60 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EB826313A590D9003EDE60 /* Foundation.framework */; };
+		5E73BC8515CFCEF900B1C575 /* CDARMSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6215CFCEF900B1C575 /* CDARMSimulator.m */; };
+		5E73BC8615CFCEF900B1C575 /* CDARMV6Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6415CFCEF900B1C575 /* CDARMV6Simulator.m */; };
+		5E73BC8715CFCEF900B1C575 /* CDARMV7Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6615CFCEF900B1C575 /* CDARMV7Simulator.m */; };
+		5E73BC8815CFCEF900B1C575 /* CDAssemblyProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6815CFCEF900B1C575 /* CDAssemblyProcessor.m */; };
+		5E73BC8915CFCEF900B1C575 /* CDClassDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6A15CFCEF900B1C575 /* CDClassDefinition.m */; };
+		5E73BC8A15CFCEF900B1C575 /* CDDisassembly.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6C15CFCEF900B1C575 /* CDDisassembly.m */; };
+		5E73BC8B15CFCEF900B1C575 /* CDFunctionCall.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC6E15CFCEF900B1C575 /* CDFunctionCall.m */; };
+		5E73BC8C15CFCEF900B1C575 /* CDHeaderIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7015CFCEF900B1C575 /* CDHeaderIndex.m */; };
+		5E73BC8D15CFCEF900B1C575 /* CDInstructionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7215CFCEF900B1C575 /* CDInstructionFormatter.m */; };
+		5E73BC8E15CFCEF900B1C575 /* CDInstructionLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7415CFCEF900B1C575 /* CDInstructionLine.m */; };
+		5E73BC8F15CFCEF900B1C575 /* CDInstructionSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7615CFCEF900B1C575 /* CDInstructionSimulator.m */; };
+		5E73BC9015CFCEF900B1C575 /* CDLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7815CFCEF900B1C575 /* CDLine.m */; };
+		5E73BC9115CFCEF900B1C575 /* CDMemorySimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7A15CFCEF900B1C575 /* CDMemorySimulator.m */; };
+		5E73BC9215CFCEF900B1C575 /* CDPPCSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7C15CFCEF900B1C575 /* CDPPCSimulator.m */; };
+		5E73BC9315CFCEF900B1C575 /* CDRegVal.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC7E15CFCEF900B1C575 /* CDRegVal.m */; };
+		5E73BC9415CFCEF900B1C575 /* CDSelector.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC8015CFCEF900B1C575 /* CDSelector.m */; };
+		5E73BC9515CFCEF900B1C575 /* CDX8664Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC8215CFCEF900B1C575 /* CDX8664Simulator.m */; };
+		5E73BC9615CFCEF900B1C575 /* CDX86Simulator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E73BC8415CFCEF900B1C575 /* CDX86Simulator.m */; };
 		DA7533B213AA587A003BE32C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01EB826313A590D9003EDE60 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -373,6 +391,42 @@
 		01EB831E13A591D8003EDE60 /* CDVisitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVisitor.m; path = Source/CDVisitor.m; sourceTree = SOURCE_ROOT; };
 		01EB831F13A591D8003EDE60 /* CDVisitorPropertyState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVisitorPropertyState.h; path = Source/CDVisitorPropertyState.h; sourceTree = SOURCE_ROOT; };
 		01EB832013A591D8003EDE60 /* CDVisitorPropertyState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVisitorPropertyState.m; path = Source/CDVisitorPropertyState.m; sourceTree = SOURCE_ROOT; };
+		5E73BC6115CFCEF900B1C575 /* CDARMSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDARMSimulator.h; sourceTree = "<group>"; };
+		5E73BC6215CFCEF900B1C575 /* CDARMSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDARMSimulator.m; sourceTree = "<group>"; };
+		5E73BC6315CFCEF900B1C575 /* CDARMV6Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDARMV6Simulator.h; sourceTree = "<group>"; };
+		5E73BC6415CFCEF900B1C575 /* CDARMV6Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDARMV6Simulator.m; sourceTree = "<group>"; };
+		5E73BC6515CFCEF900B1C575 /* CDARMV7Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDARMV7Simulator.h; sourceTree = "<group>"; };
+		5E73BC6615CFCEF900B1C575 /* CDARMV7Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDARMV7Simulator.m; sourceTree = "<group>"; };
+		5E73BC6715CFCEF900B1C575 /* CDAssemblyProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDAssemblyProcessor.h; sourceTree = "<group>"; };
+		5E73BC6815CFCEF900B1C575 /* CDAssemblyProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDAssemblyProcessor.m; sourceTree = "<group>"; };
+		5E73BC6915CFCEF900B1C575 /* CDClassDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDClassDefinition.h; sourceTree = "<group>"; };
+		5E73BC6A15CFCEF900B1C575 /* CDClassDefinition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDClassDefinition.m; sourceTree = "<group>"; };
+		5E73BC6B15CFCEF900B1C575 /* CDDisassembly.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDDisassembly.h; sourceTree = "<group>"; };
+		5E73BC6C15CFCEF900B1C575 /* CDDisassembly.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDDisassembly.m; sourceTree = "<group>"; };
+		5E73BC6D15CFCEF900B1C575 /* CDFunctionCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDFunctionCall.h; sourceTree = "<group>"; };
+		5E73BC6E15CFCEF900B1C575 /* CDFunctionCall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDFunctionCall.m; sourceTree = "<group>"; };
+		5E73BC6F15CFCEF900B1C575 /* CDHeaderIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDHeaderIndex.h; sourceTree = "<group>"; };
+		5E73BC7015CFCEF900B1C575 /* CDHeaderIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDHeaderIndex.m; sourceTree = "<group>"; };
+		5E73BC7115CFCEF900B1C575 /* CDInstructionFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDInstructionFormatter.h; sourceTree = "<group>"; };
+		5E73BC7215CFCEF900B1C575 /* CDInstructionFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDInstructionFormatter.m; sourceTree = "<group>"; };
+		5E73BC7315CFCEF900B1C575 /* CDInstructionLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDInstructionLine.h; sourceTree = "<group>"; };
+		5E73BC7415CFCEF900B1C575 /* CDInstructionLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDInstructionLine.m; sourceTree = "<group>"; };
+		5E73BC7515CFCEF900B1C575 /* CDInstructionSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDInstructionSimulator.h; sourceTree = "<group>"; };
+		5E73BC7615CFCEF900B1C575 /* CDInstructionSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDInstructionSimulator.m; sourceTree = "<group>"; };
+		5E73BC7715CFCEF900B1C575 /* CDLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDLine.h; sourceTree = "<group>"; };
+		5E73BC7815CFCEF900B1C575 /* CDLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDLine.m; sourceTree = "<group>"; };
+		5E73BC7915CFCEF900B1C575 /* CDMemorySimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDMemorySimulator.h; sourceTree = "<group>"; };
+		5E73BC7A15CFCEF900B1C575 /* CDMemorySimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDMemorySimulator.m; sourceTree = "<group>"; };
+		5E73BC7B15CFCEF900B1C575 /* CDPPCSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDPPCSimulator.h; sourceTree = "<group>"; };
+		5E73BC7C15CFCEF900B1C575 /* CDPPCSimulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDPPCSimulator.m; sourceTree = "<group>"; };
+		5E73BC7D15CFCEF900B1C575 /* CDRegVal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDRegVal.h; sourceTree = "<group>"; };
+		5E73BC7E15CFCEF900B1C575 /* CDRegVal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDRegVal.m; sourceTree = "<group>"; };
+		5E73BC7F15CFCEF900B1C575 /* CDSelector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSelector.h; sourceTree = "<group>"; };
+		5E73BC8015CFCEF900B1C575 /* CDSelector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSelector.m; sourceTree = "<group>"; };
+		5E73BC8115CFCEF900B1C575 /* CDX8664Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDX8664Simulator.h; sourceTree = "<group>"; };
+		5E73BC8215CFCEF900B1C575 /* CDX8664Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDX8664Simulator.m; sourceTree = "<group>"; };
+		5E73BC8315CFCEF900B1C575 /* CDX86Simulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDX86Simulator.h; sourceTree = "<group>"; };
+		5E73BC8415CFCEF900B1C575 /* CDX86Simulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDX86Simulator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -498,6 +552,7 @@
 			children = (
 				01EB828013A5916D003EDE60 /* MachObjC */,
 				01EB826513A590D9003EDE60 /* class-dump */,
+				5EEF12911536D046001036D2 /* code-dump */,
 				013D1EFE13A5A0F100BF0A67 /* deprotect */,
 				01B02D0213A5B0DC0047BC53 /* formatType */,
 				01EB826213A590D9003EDE60 /* Frameworks */,
@@ -725,6 +780,58 @@
 			name = "Type Parsing/Lexing";
 			sourceTree = "<group>";
 		};
+		5E73BC6015CFCEF900B1C575 /* Disassembly */ = {
+			isa = PBXGroup;
+			children = (
+				5E73BC6115CFCEF900B1C575 /* CDARMSimulator.h */,
+				5E73BC6215CFCEF900B1C575 /* CDARMSimulator.m */,
+				5E73BC6315CFCEF900B1C575 /* CDARMV6Simulator.h */,
+				5E73BC6415CFCEF900B1C575 /* CDARMV6Simulator.m */,
+				5E73BC6515CFCEF900B1C575 /* CDARMV7Simulator.h */,
+				5E73BC6615CFCEF900B1C575 /* CDARMV7Simulator.m */,
+				5E73BC6715CFCEF900B1C575 /* CDAssemblyProcessor.h */,
+				5E73BC6815CFCEF900B1C575 /* CDAssemblyProcessor.m */,
+				5E73BC6915CFCEF900B1C575 /* CDClassDefinition.h */,
+				5E73BC6A15CFCEF900B1C575 /* CDClassDefinition.m */,
+				5E73BC6B15CFCEF900B1C575 /* CDDisassembly.h */,
+				5E73BC6C15CFCEF900B1C575 /* CDDisassembly.m */,
+				5E73BC6D15CFCEF900B1C575 /* CDFunctionCall.h */,
+				5E73BC6E15CFCEF900B1C575 /* CDFunctionCall.m */,
+				5E73BC6F15CFCEF900B1C575 /* CDHeaderIndex.h */,
+				5E73BC7015CFCEF900B1C575 /* CDHeaderIndex.m */,
+				5E73BC7115CFCEF900B1C575 /* CDInstructionFormatter.h */,
+				5E73BC7215CFCEF900B1C575 /* CDInstructionFormatter.m */,
+				5E73BC7315CFCEF900B1C575 /* CDInstructionLine.h */,
+				5E73BC7415CFCEF900B1C575 /* CDInstructionLine.m */,
+				5E73BC7515CFCEF900B1C575 /* CDInstructionSimulator.h */,
+				5E73BC7615CFCEF900B1C575 /* CDInstructionSimulator.m */,
+				5E73BC7715CFCEF900B1C575 /* CDLine.h */,
+				5E73BC7815CFCEF900B1C575 /* CDLine.m */,
+				5E73BC7915CFCEF900B1C575 /* CDMemorySimulator.h */,
+				5E73BC7A15CFCEF900B1C575 /* CDMemorySimulator.m */,
+				5E73BC7B15CFCEF900B1C575 /* CDPPCSimulator.h */,
+				5E73BC7C15CFCEF900B1C575 /* CDPPCSimulator.m */,
+				5E73BC7D15CFCEF900B1C575 /* CDRegVal.h */,
+				5E73BC7E15CFCEF900B1C575 /* CDRegVal.m */,
+				5E73BC7F15CFCEF900B1C575 /* CDSelector.h */,
+				5E73BC8015CFCEF900B1C575 /* CDSelector.m */,
+				5E73BC8115CFCEF900B1C575 /* CDX8664Simulator.h */,
+				5E73BC8215CFCEF900B1C575 /* CDX8664Simulator.m */,
+				5E73BC8315CFCEF900B1C575 /* CDX86Simulator.h */,
+				5E73BC8415CFCEF900B1C575 /* CDX86Simulator.m */,
+			);
+			name = Disassembly;
+			path = "Source/code-dump/Disassembly";
+			sourceTree = "<group>";
+		};
+		5EEF12911536D046001036D2 /* code-dump */ = {
+			isa = PBXGroup;
+			children = (
+				5E73BC6015CFCEF900B1C575 /* Disassembly */,
+			);
+			name = "code-dump";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -948,6 +1055,24 @@
 				01B02D2A13A5B4D70047BC53 /* CDTextClassDumpVisitor.m in Sources */,
 				01B02D2B13A5B4D70047BC53 /* CDSearchPathState.m in Sources */,
 				01B02D1113A5B1460047BC53 /* class-dump.m in Sources */,
+				5E73BC8515CFCEF900B1C575 /* CDARMSimulator.m in Sources */,
+				5E73BC8615CFCEF900B1C575 /* CDARMV6Simulator.m in Sources */,
+				5E73BC8715CFCEF900B1C575 /* CDARMV7Simulator.m in Sources */,
+				5E73BC8815CFCEF900B1C575 /* CDAssemblyProcessor.m in Sources */,
+				5E73BC8915CFCEF900B1C575 /* CDClassDefinition.m in Sources */,
+				5E73BC8A15CFCEF900B1C575 /* CDDisassembly.m in Sources */,
+				5E73BC8B15CFCEF900B1C575 /* CDFunctionCall.m in Sources */,
+				5E73BC8C15CFCEF900B1C575 /* CDHeaderIndex.m in Sources */,
+				5E73BC8D15CFCEF900B1C575 /* CDInstructionFormatter.m in Sources */,
+				5E73BC8E15CFCEF900B1C575 /* CDInstructionLine.m in Sources */,
+				5E73BC8F15CFCEF900B1C575 /* CDInstructionSimulator.m in Sources */,
+				5E73BC9015CFCEF900B1C575 /* CDLine.m in Sources */,
+				5E73BC9115CFCEF900B1C575 /* CDMemorySimulator.m in Sources */,
+				5E73BC9215CFCEF900B1C575 /* CDPPCSimulator.m in Sources */,
+				5E73BC9315CFCEF900B1C575 /* CDRegVal.m in Sources */,
+				5E73BC9415CFCEF900B1C575 /* CDSelector.m in Sources */,
+				5E73BC9515CFCEF900B1C575 /* CDX8664Simulator.m in Sources */,
+				5E73BC9615CFCEF900B1C575 /* CDX86Simulator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,6 +1149,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MachObjC-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1034,6 +1160,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MachObjC-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1071,6 +1198,7 @@
 		01B02D3013A5B5D50047BC53 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1078,6 +1206,7 @@
 		01B02D3113A5B5D50047BC53 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1088,7 +1217,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1099,13 +1227,13 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
@@ -1127,18 +1255,17 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_SHADOW = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INSTALL_PATH = /;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				MACOSX_DEPLOYMENT_TARGET = "";
 				SDKROOT = macosx;
 				WARNING_CFLAGS = (
 					"-fdiagnostics-show-option",
@@ -1159,6 +1286,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "class-dump-Prefix.pch";
+				GCC_VERSION = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
@@ -1173,6 +1301,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "class-dump-Prefix.pch";
+				GCC_VERSION = "";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
