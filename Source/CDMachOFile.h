@@ -27,6 +27,7 @@ typedef enum : NSUInteger {
 - (void)_readLoadCommands:(CDMachOFileDataCursor *)cursor count:(uint32_t)count;
 
 @property (readonly) CDByteOrder byteOrder;
+- (BOOL)hasDifferentByteOrder;
 
 - (CDMachOFile *)machOFileWithArch:(CDArch)arch;
 
@@ -93,5 +94,14 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) BOOL hasObjectiveC1Data;
 @property (nonatomic, readonly) BOOL hasObjectiveC2Data;
 @property (nonatomic, readonly) Class processorClass;
+
+#pragma mark - Decompilation Helpers
+- (void)fixupIndirectSymbols;
+- (void)fixupRelocs;
+- (CDLCDynamicSymbolTable*)dsym;
+- (CDLCSymbolTable*)sym;
+- (const void *)pointerFromVMAddr:(unsigned long)vmaddr;
+- (const void *)pointerFromVMAddr:(unsigned long)vmaddr segmentName:(NSString *)aSegmentName;
+- (void)foo;
 
 @end

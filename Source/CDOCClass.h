@@ -7,6 +7,8 @@
 
 #import "CDTopologicalSortProtocol.h"
 
+@class CDMachOFile, CDSelector, CDAssemblyProcessor, CDClassDump;
+
 @interface CDOCClass : CDOCProtocol <CDTopologicalSort>
 
 @property (strong) NSString *superClassName;
@@ -17,5 +19,9 @@
 
 - (NSString *)methodSearchContext;
 - (void)recursivelyVisit:(CDVisitor *)visitor;
+
+#pragma mark - Decompilation
+- (void)printDecompilation:(CDAssemblyProcessor*)disasm classDump:(CDClassDump *)aClassDump resString:(NSMutableString*)resultString file:(CDMachOFile*)mach;
+- (NSString*)getFuncDefMatching:(CDSelector*)selector cd:(CDClassDump*)cd;
 
 @end

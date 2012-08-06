@@ -7,6 +7,7 @@
 
 #import "CDObjectiveC1Processor.h"
 #import "CDOCSymtab.h"
+#import "CDClassDump.h"
 
 @implementation CDOCModule
 {
@@ -38,6 +39,24 @@
 - (NSString *)formattedString;
 {
     return [NSString stringWithFormat:@"/*\n * %@\n */\n", self.name];
+}
+
+#pragma mark - Decompilation
+- (void)printDecompilation:(CDAssemblyProcessor*)disasm classDump:(CDClassDump *)aClassDump resString:(NSMutableString*)resultString file:(CDMachOFile*)mach
+{
+	// enumerate classes in module
+	NSEnumerator* classEnum = [[_symtab classes] objectEnumerator];
+	id class;
+	
+	while ((class = [classEnum nextObject]))
+	{
+		//NSAutoreleasePool *classPool = [[NSAutoreleasePool alloc] init];
+		
+		[aClassDump setCurMod:self];
+		[class printDecompilation:disasm classDump:aClassDump resString:resultString file:mach];
+		
+		//[classPool release];
+	}
 }
 
 @end

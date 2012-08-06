@@ -56,6 +56,9 @@
 
 #pragma mark -
 
+//@synthesize machOFile;
+//@synthesize classes;
+
 - (BOOL)hasObjectiveCData;
 {
     return self.machOFile.hasObjectiveC1Data || self.machOFile.hasObjectiveC2Data;

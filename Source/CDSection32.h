@@ -14,4 +14,8 @@
 @property (weak, readonly) CDLCSegment32 *segment;
 @property (nonatomic, readonly) uint32_t offset;
 
+- (long)secttype;
+- (long)res2;
+- (long)res1;
+
 @end

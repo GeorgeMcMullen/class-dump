@@ -12,6 +12,7 @@
 - (id)initWithName:(NSString *)name type:(NSString *)type offset:(NSUInteger)offset;
 
 @property (readonly) NSString *name;
+@property (readonly) NSString *frmString;
 @property (readonly) NSString *type;
 @property (readonly) NSUInteger offset;
 

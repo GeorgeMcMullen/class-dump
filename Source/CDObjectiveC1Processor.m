@@ -135,6 +135,8 @@ static BOOL debug = NO;
     NSMutableArray *_modules;
 }
 
+@synthesize modules;
+
 - (id)initWithMachOFile:(CDMachOFile *)machOFile;
 {
     if ((self = [super initWithMachOFile:machOFile])) {

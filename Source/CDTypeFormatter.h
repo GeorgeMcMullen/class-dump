@@ -24,4 +24,6 @@
 
 - (void)formattingDidReferenceClassName:(NSString *)name;
 
+- (NSArray *)methodArgs:(NSString *)methodName type:(NSString *)type;
+
 @end

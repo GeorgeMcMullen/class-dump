@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CDFile.h" // For CDArch
+#import "CDHeaderIndex.h"
 
 #define CLASS_DUMP_BASE_VERSION "3.3.4 (64 bit)"
 
@@ -19,6 +20,7 @@
 @class CDTypeController;
 @class CDVisitor;
 @class CDSearchPathState;
+@class CDOCModule,CDOCClass, CDTypeFormatter;
 
 @interface CDClassDump : NSObject
 
@@ -34,6 +36,10 @@
 
 @property (strong) NSRegularExpression *regularExpression;
 - (BOOL)shouldShowName:(NSString *)name;
+
+@property (assign) BOOL shouldDecompile;
+@property (strong) NSString *decompileArch;
+@property (readonly) CDTypeFormatter *methodTypeFormatter;
 
 @property (strong) NSString *sdkRoot;
 
@@ -60,4 +66,21 @@
 - (void)showHeader;
 - (void)showLoadCommands;
 
+#pragma mark - Decompile Methods
++ (NSString*)genSearchStrWithDef:(NSString*)def;
+- (CDHeaderIndex*)lookupTable;
+- (CDOCModule*)curMod;
+- (void)setCurMod:(CDOCModule*)a;
+- (CDOCClass*)curClass;
+- (void)setCurClass:(CDOCClass*)a;
+- (NSMutableArray*)allclasses;
+//- (void)addClasses:(NSArray *)newClasses;
+- (void)generateDecompile;
+- (void)buildLookupTable;
+- (void)buildLookupTableFromPPC;
+- (BOOL)shouldMatchRegex;
+- (void)setShouldMatchRegex:(BOOL)newFlag;
+- (BOOL)setRegex:(char *)regexCString errorMessage:(NSString **)errorMessagePointer;
+- (BOOL)regexMatchesString:(NSString *)aString;
+- (NSDictionary*)lookupDict;
 @end

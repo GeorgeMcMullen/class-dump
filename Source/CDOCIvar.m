@@ -22,6 +22,7 @@
     NSString *_name;
     NSString *_type;
     NSUInteger _offset;
+    NSString *_frmString;
     
     BOOL _hasParsedType;
     CDType *_parsedType;
@@ -33,6 +34,7 @@
         _name = name;
         _type = type;
         _offset = offset;
+        _frmString = nil;
         
         _hasParsedType = NO;
         _parsedType = nil;
@@ -50,6 +52,12 @@
 }
 
 #pragma mark -
+
+//@synthesize name;
+//@synthesize frmString;
+//@synthesize type;
+//@synthesize offset;
+//@synthesize hasParsedType;
 
 - (CDType *)parsedType;
 {
@@ -70,6 +78,7 @@
 - (void)appendToString:(NSMutableString *)resultString typeController:(CDTypeController *)typeController;
 {
     NSString *formattedString = [[typeController ivarTypeFormatter] formatVariable:self.name type:self.type];
+    _frmString = formattedString;
     if (formattedString != nil) {
         [resultString appendString:formattedString];
         [resultString appendString:@";"];

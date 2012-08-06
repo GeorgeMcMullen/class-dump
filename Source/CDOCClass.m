@@ -14,6 +14,10 @@
 #import "CDVisitor.h"
 #import "CDVisitorPropertyState.h"
 
+#import "CDSelector.h"
+#import "CDTypeFormatter.h"
+#import "CDTypeFormatter.h"
+
 @implementation CDOCClass
 {
     NSString *_superClassName;
@@ -102,6 +106,95 @@
         return @[];
 
     return @[self.superClassName];
+}
+
+#pragma mark - Decompilation
+- (void)printDecompilation:(CDAssemblyProcessor*)disasm classDump:(CDClassDump *)aClassDump resString:(NSMutableString*)resultString file:(CDMachOFile*)mach;
+{
+    NSArray *methods;
+    
+	[aClassDump setCurClass:self];
+    
+    if ([aClassDump shouldMatchRegex] == YES && [aClassDump regexMatchesString:[self name]] == NO)
+        return;
+    
+	NSLog(@"Starting class %@\n",[self name]);
+    
+    [resultString appendFormat:@"@implementation %@\n\n", [self name]];
+    
+    if ([aClassDump shouldSortMethods] == YES)
+        methods = [[self classMethods] sortedArrayUsingSelector:@selector(ascendingCompareByName:)];
+    else
+        methods = [self classMethods];
+    
+	NSEnumerator* methEnum = [methods objectEnumerator];
+	id meth;
+    
+	while ((meth = [methEnum nextObject]))
+	{
+//		NSAutoreleasePool *methPool;
+//		methPool = [[NSAutoreleasePool alloc] init];
+        
+		[resultString appendString:@"+ "];
+		[meth printDecompilation:disasm classDump:aClassDump resString:resultString file:mach forClass:self];
+		[resultString appendString:@"\n"];
+        
+//		[methPool release];
+        
+	}
+    
+    if ([aClassDump shouldSortMethods] == YES)
+        methods = [[self instanceMethods] sortedArrayUsingSelector:@selector(ascendingCompareByName:)];
+    else
+        methods = [self instanceMethods];
+    
+	methEnum = [methods objectEnumerator];
+	while ((meth = [methEnum nextObject]))
+	{	
+//		NSAutoreleasePool *methPool;
+//		methPool = [[NSAutoreleasePool alloc] init];
+        
+		[resultString appendString:@"- "];
+		[meth printDecompilation:disasm classDump:aClassDump resString:resultString file:mach forClass:self];
+		[resultString appendString:@"\n"];		
+        
+//		[methPool release];
+	}
+	
+    if ([[self classMethods] count] > 0 || [[self instanceMethods] count] > 0)
+        [resultString appendString:@"\n"];
+    
+    [resultString appendString:@"@end\n\n"];	
+}
+
+- (NSString*)getFuncDefMatching:(CDSelector*)selector cd:(CDClassDump*)cd
+{
+	if (![[selector sel] length])
+		return nil;
+    
+	//NSLog(@"getfuncdefmatching %@\n",selector);
+	
+	NSEnumerator* methEnum = [[self classMethods] objectEnumerator];
+	CDOCMethod* meth;
+	while ((meth = [methEnum nextObject]))
+	{
+		if ([[meth name] isEqualToString:[selector sel]])
+		{
+			//NSLog(@"found matching selector %@!\n",[selector sel]);
+			return [[NSString alloc] initWithString:[[cd methodTypeFormatter] formatMethodName:[meth name] type:[meth type]]];
+		}
+	}
+	methEnum = [[self instanceMethods] objectEnumerator];
+	while ((meth = [methEnum nextObject]))
+	{
+		if ([[meth name] isEqualToString:[selector sel]])
+		{
+			//NSLog(@"found matching selector %@!\n",[selector sel]);
+			return [[NSString alloc] initWithString:[[cd methodTypeFormatter] formatMethodName:[meth name] type:[meth type]]];
+		}
+	}
+	NSLog(@"couldn't find selector %@\n",[selector sel]);
+	return nil;		
 }
 
 @end

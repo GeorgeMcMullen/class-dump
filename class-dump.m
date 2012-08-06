@@ -45,6 +45,8 @@ void print_usage(void)
             "        --sdk-ios      specify iOS SDK version (will look in /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS<version>.sdk\n"
             "        --sdk-mac      specify Mac OS X version (will look in /Developer/SDKs/MacOSX<version>.sdk\n"
             "        --sdk-root     specify the full SDK root path (or use --sdk-ios/--sdk-mac for a shortcut)\n"
+			"        -d             decompile\n"
+			"        -D <arch>		decompilation architecture\n"
             ,
             CLASS_DUMP_VERSION
        );
@@ -89,6 +91,7 @@ int main(int argc, char *argv[])
             { "sdk-ios",                 required_argument, NULL, CD_OPT_SDK_IOS },
             { "sdk-mac",                 required_argument, NULL, CD_OPT_SDK_MAC },
             { "sdk-root",                required_argument, NULL, CD_OPT_SDK_ROOT },
+            { "decompile",               no_argument,       NULL, 'd' },
             { NULL,                      0,                 NULL, 0 },
         };
 
@@ -99,7 +102,7 @@ int main(int argc, char *argv[])
 
         CDClassDump *classDump = [[CDClassDump alloc] init];
 
-        while ( (ch = getopt_long(argc, argv, "aAC:f:HIo:rRsSt", longopts, NULL)) != -1) {
+        while ( (ch = getopt_long(argc, argv, "aAC:f:HIo:rRsStdD", longopts, NULL)) != -1) {
             switch (ch) {
                 case CD_OPT_ARCH: {
                     NSString *name = [NSString stringWithUTF8String:optarg];
@@ -203,7 +206,15 @@ int main(int argc, char *argv[])
                 case 't':
                     classDump.shouldShowHeader = NO;
                     break;
+
+                case 'd':
+                    classDump.shouldDecompile=YES;
+                    break;
                     
+                case 'D':
+                    [classDump setDecompileArch:[NSString stringWithCString:optarg encoding:NSASCIIStringEncoding]];
+                    break;
+
                 case '?':
                 default:
                     errorFlag = YES;
@@ -242,7 +253,8 @@ int main(int argc, char *argv[])
                         }
                     }
                 }
-            } else {
+            } 
+            else {
                 if (executablePath == nil) {
                     fprintf(stderr, "class-dump: Input file (%s) doesn't contain an executable.\n", [arg fileSystemRepresentation]);
                     exit(1);
@@ -307,6 +319,10 @@ int main(int argc, char *argv[])
                         visitor.classDump = classDump;
                         [classDump recursivelyVisit:visitor];
                     }
+                    
+                    if (classDump.shouldDecompile==YES)
+                        [classDump generateDecompile];
+
                 }
             }
         }

@@ -5,7 +5,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class CDOCSymtab;
+@class CDClassDump, CDOCSymtab, CDMachOFile, CDAssemblyProcessor;
 
 @interface CDOCModule : NSObject
 
@@ -14,5 +14,8 @@
 @property (strong) CDOCSymtab *symtab;
 
 - (NSString *)formattedString;
+
+#pragma mark - Decompilation
+- (void)printDecompilation:(CDAssemblyProcessor*)disasm classDump:(CDClassDump *)aClassDump resString:(NSMutableString*)resultString file:(CDMachOFile*)mach;
 
 @end

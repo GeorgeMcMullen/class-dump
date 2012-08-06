@@ -82,6 +82,11 @@
     return _section.size;
 }
 
+- (const void *)dataPointer;
+{
+    return [[self machOFile] bytes];// + [self offset];
+}
+
 - (void)loadData;
 {
     if (self.hasLoadedData == NO) {
@@ -99,6 +104,21 @@
 {
     NSParameterAssert([self containsAddress:address]);
     return _section.offset + address - _section.addr;
+}
+
+- (long)secttype
+{
+	return _section.flags & SECTION_TYPE;
+}
+
+- (long)res2
+{
+	return _section.reserved2;
+}
+
+- (long)res1
+{
+	return _section.reserved1;
 }
 
 @end

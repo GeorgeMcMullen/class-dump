@@ -13,4 +13,9 @@
 
 - (CDRelocationInfo *)relocationEntryWithOffset:(NSUInteger)offset;
 
+#pragma mark - Decompilation Helpers
+- (NSArray*)indices;
+- (int)nextrel;
+- (long)extreloff;
+
 @end

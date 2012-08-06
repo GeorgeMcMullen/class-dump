@@ -94,4 +94,9 @@
     return 0;
 }
 
+- (const void *)dataPointer
+{
+    return nil;
+}
+
 @end

@@ -14,7 +14,7 @@
 {
     struct symtab_command _symtabCommand;
     
-    NSArray *_symbols;
+    NSMutableArray *_symbols;
     NSUInteger _baseAddress;
     
     NSDictionary *_classSymbols;
@@ -25,6 +25,8 @@
         unsigned int _unused:30;
     } _flags;
 }
+
+//@synthesize symbols;
 
 - (id)initWithDataCursor:(CDMachOFileDataCursor *)cursor;
 {
@@ -95,7 +97,7 @@
             }
         }
     }
-    
+
     NSMutableArray *symbols = [[NSMutableArray alloc] init];
     NSMutableDictionary *classSymbols = [[NSMutableDictionary alloc] init];
 
@@ -165,11 +167,9 @@
 
         //NSLog(@"Loaded %lu 64-bit symbols", [symbols count]);
     }
-    
-    _symbols = [symbols copy];
-    _classSymbols = [classSymbols copy];
 
-    //NSLog(@"symbols: %@", _symbols);
+    _symbols = [symbols mutableCopy]; // Needs to be a mutable copy because it gets modified later
+    _classSymbols = [classSymbols copy];
 }
 
 - (uint32_t)symoff;
@@ -205,6 +205,41 @@
 - (CDSymbol *)symbolForClass:(NSString *)className;
 {
     return _classSymbols[className];
+}
+
+- (CDSymbol*)findByName:(NSString*)findName
+{
+	int i;
+	for (i=0;i<[_symbols count];i++)
+	{
+		CDSymbol* curSym = [_symbols objectAtIndex:i];
+		if (![curSym name])
+			continue;
+		if ([[curSym name] isEqualToString:findName])
+			return curSym;
+	}
+	return nil;
+}
+
+- (CDSymbol*)findByOffset:(long)offset
+{
+    // These lines are part of the old code. Need to check.
+	int i;
+	for (i=0;i<[_symbols count];i++)
+	{
+		CDSymbol* curSym = [_symbols objectAtIndex:i];
+		if (![curSym name])
+			continue;
+		if ([curSym value]==offset)
+		{
+#ifdef DEBUG
+			NSLog(@"found offset %lx\n",offset);
+			//CFShow(curSym);
+#endif
+			return curSym;
+		}
+	}
+	return nil;
 }
 
 @end

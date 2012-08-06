@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 
 @class CDTypeController;
+@class CDLine, CDOCClass, CDMachOFile, CDAssemblyProcessor, CDClassDump;
 
 @interface CDOCMethod : NSObject <NSCopying>
 
@@ -16,10 +17,18 @@
 @property (readonly) NSString *type;
 @property (assign) NSUInteger imp;
 
+@property (strong) NSMutableDictionary *stack;
+
 - (NSArray *)parsedMethodTypes;
 
 - (void)appendToString:(NSMutableString *)resultString typeController:(CDTypeController *)typeController;
 
 - (NSComparisonResult)ascendingCompareByName:(CDOCMethod *)otherMethod;
+
+#pragma mark - Decompilation
+- (void)printDecompilation:(CDAssemblyProcessor*)disasm classDump:(CDClassDump *)aClassDump resString:(NSMutableString*)resultString file:(CDMachOFile*)mach forClass:(CDOCClass*)class;
+- (NSString*)lookupObject:(int)reg line:(CDLine*)line lineArray:(NSArray*)lineArray file:(CDMachOFile*)mach outType:(NSString**)type;
+- (BOOL)canCombine:(CDLine*)aLine otherLine:(CDLine*)old lineArray:(NSArray*)disLines;
+- (void)appendLines:(NSArray*)lineArray toString:(NSMutableString*)resultString ret:(BOOL)retValue file:(CDMachOFile*)mach;
 
 @end

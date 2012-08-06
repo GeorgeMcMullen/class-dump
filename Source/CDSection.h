@@ -20,6 +20,7 @@
 
 @property (nonatomic, readonly) NSUInteger addr;
 @property (nonatomic, readonly) NSUInteger size;
+- (const void *)dataPointer;
 
 - (CDMachOFile *)machOFile;
 

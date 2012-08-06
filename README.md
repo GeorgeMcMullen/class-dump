@@ -1,3 +1,30 @@
+code-dump
+=========
+code-dump is a program built on class-dump that is designed to decompile Objective-C/Cocoa programs by relying on the structured nature of Objective-C. It simulates the effect of instructions and creates Objective-C which should have the same effect. 
+
+A while back, Braden Thomas took Steve Nygard's class-dump and converted it to be an Objective-C decompiler for PPC by adding and parsing disassembly through OTool. The original project is at: http://code-dump.sourceforge.net/. A while later in 2007/2008 it was updated for use with i386 processors (http://code.google.com/p/i386codedump/). Since then, Steve Nygard's class-dump has gone through some major revisions and new processors have been added to the support including x86_64 and ARM based processors. OTool has been updated as well to accommodate the new processors and has a slightly different output than previously (it outputs 64-bit addresses for at least the new processors). Unfortunately, code-dump was never updated to class-dump's new code base, otool's new output, nor the new processors. In fact, it isn't actually known whether or not code-dump actually ever worked; you would need an older machine that is purely just PPC or i386 to check for that. 
+
+This project aims to bring code-dump back into the fold and hopefully even extend it to be able to decompile for X86_64 and ARM based architectures. There is A LOT to do. It must be noted that this project is NOT YET AT AN OPERATIONAL WORKING STAGE! DO NOT COMPLAIN TO ME THAT IT DOESN'T WORK, because IT DOESN'T WORK! I am only doing this basically as an intellectual exercise. If you want a decompiler, check out Hopper. If you have the money, check out Ida Pro Hex Rays.
+
+Mostly what has been done so far is the tedious stuff, including:
+- Took the current class-dump code base and added the original i386codedump code. The project DOES compile and it should run without crashes (though there are exceptions built into the app for error checking purposes).
+- There were massive amounts of warnings, mostly because of ARC and int size problems. In many places I replaced "int" with "NSUInteger" (while doing things like [NSArray count]). Hopefully this doesn't mess anything up severely.
+- I added stubs for X86_64 and ARM simulation / disassembly. THESE ARE NOT MEANT TO WORK RIGHT NOW! It is just copy / pasted from the existing PPC and X86 simulator classes / disassembly.
+- It looks like code-dump was originally just based on ObjC1 decompiling. class-dump includes a new ObjC2 pre-processor so I added some rudimentary checking for that. I'm not sure if that is all that needs to be done.
+
+Still left to do (A LOT!):
+- Address schemes etc. and the new OTool output need to be accounted for, for all included processors. This will include changing variable sizes from 32 bits (ints and longs) to 64 bits, etc.
+- Disassembly parsing and simulation needs to be updated for X86_64 and ARM. This is going to be the most intense work (though I'm hoping X86_64 is a little easier)
+- Lots of error checking. For example, there are a lot of "Warning!: curIndex not found!" errors when it runs. Those need to be tracked down and fixed.
+- Everything else that still needed to be done for the original code-dump
+
+In it's current state, it will go through an executable, get the first class, disassemble the first method and attempt decompile it by simulating the instructions. At the simulation level it then quits out on a programmed exception. The test executable I am using is itself (because it doesn't make sense yet to create a test "Hello World!" app yet when it doesn't even run correctly). 
+
+If you'd like to help out or have any pointers, let me know.
+
+Please do not bother Steve Nygard or Braden Thomas about this project.
+
+
 class-dump
 ==========
 

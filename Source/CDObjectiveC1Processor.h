@@ -9,6 +9,8 @@
 
 @interface CDObjectiveC1Processor : CDObjectiveCProcessor
 
+@property (readonly) NSMutableArray *modules;
+
 - (id)initWithMachOFile:(CDMachOFile *)machOFile;
 
 - (void)process;

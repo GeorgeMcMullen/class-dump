@@ -30,6 +30,11 @@
 #import "CDSearchPathState.h"
 #import "CDLCSourceVersion.h"
 
+#import "CDLCDynamicSymbolTable.h"
+#import "CDLCSymbolTable.h"
+#import "CDSection32.h"
+#import "CDSection64.h"
+
 NSString *CDMagicNumberString(uint32_t magic)
 {
     switch (magic) {
@@ -60,6 +65,9 @@ NSString *CDMagicNumberString(uint32_t magic)
     NSArray *_reExportedDylibs;
     struct mach_header_64 _header; // 64-bit, also holding 32-bit
     
+    NSUInteger archiveOffset;
+    //NSData *data;
+
     struct {
         unsigned int uses64BitABI:1;
         unsigned int _unused:31;
@@ -93,6 +101,21 @@ NSString *CDMagicNumberString(uint32_t magic)
             return nil;
         }
         
+/*
+        // These lines can probably go.
+        data = [[NSData alloc] initWithContentsOfMappedFile:aFilename];
+        NSLog(@"%lx, ao: %lx\n",*((long*)[data bytes]),anOffset);
+        
+        archiveOffset = anOffset;
+
+        
+        CDDataCursor *cursor = [[CDDataCursor alloc] initWithData:someData offset:self.archOffset];
+        header.magic = [cursor readBigInt32];
+        if (header.magic == MH_MAGIC || header.magic == MH_MAGIC_64) {
+            byteOrder = CDByteOrder_BigEndian;
+        } else if (header.magic == MH_CIGAM || header.magic == MH_CIGAM_64) {
+            byteOrder = CDByteOrder_LittleEndian;
+*/
         _flags.uses64BitABI = (_header.magic == MH_MAGIC_64) || (_header.magic == MH_CIGAM_64);
         
         _header.cputype = [cursor readBigInt32];
@@ -176,6 +199,21 @@ NSString *CDMagicNumberString(uint32_t magic)
 }
 
 #pragma mark -
+
+//- (CDByteOrder)byteOrder;
+//{
+//    return _byteOrder;
+//}
+
+- (BOOL)hasDifferentByteOrder;
+{
+    if (_header.magic == MH_MAGIC)
+        return NO;
+    else if (_header.magic == MH_CIGAM)
+        return YES;
+
+    return NO;
+}
 
 - (CDMachOFile *)machOFileWithArch:(CDArch)arch;
 {
@@ -395,6 +433,7 @@ NSString *CDMagicNumberString(uint32_t magic)
 
 - (const void *)bytesAtOffset:(NSUInteger)offset;
 {
+    //NSLog(@"%d %d %ld", (uint8_t *)[self.data bytes], (uint8_t *)[self.data bytes] + offset, offset);
     return (uint8_t *)[self.data bytes] + offset;
 }
 
@@ -594,6 +633,209 @@ NSString *CDMagicNumberString(uint32_t magic)
         return [CDObjectiveC2Processor class];
     
     return [CDObjectiveC1Processor class];
+}
+
+#pragma mark - Decompilation Helpers
+- (void)fixupRelocs
+{
+	CDLCSymbolTable* sym = self.symbolTable; //[self sym];
+	CDLCDynamicSymbolTable* dsym = self.dynamicSymbolTable; //[self dsym];
+    
+	int i;
+	if ([dsym cmd]!=0)
+	{
+		for (i=0;i<[dsym nextrel];i++)
+		{
+			struct relocation_info *relif = malloc(sizeof(struct relocation_info));
+			memcpy(relif,(struct relocation_info*)[self bytesAtOffset:[dsym extreloff]+i*sizeof(struct relocation_info)],sizeof(struct relocation_info));
+            
+			//Swapping no longer exists in the latest version of class-dump, so perhaps it is no longer needed?
+            //swap_relocation_info(relif,1,CD_THIS_BYTE_ORDER);
+			
+			if ((relif->r_pcrel==NO)&&(relif->r_extern==YES)&&(relif->r_type==0))
+			{
+				NSLog(@"%08x addr sym %d\n",relif->r_address,relif->r_symbolnum);
+				
+				// append a new entry to symbol table with address and name of relocation entry
+				NSString* newName = [[NSString alloc] initWithString:[[[sym symbols] objectAtIndex:relif->r_symbolnum] name]];
+				NSLog(@"name: %@",newName);
+				CDSymbol* newSym = [[CDSymbol alloc] initWithValue:relif->r_address name:newName];
+				[[sym symbols] addObject:newSym]; // This might crash because the symbols property was originally listed as a readonly NSArray
+				
+				//[[[sym symbols] objectAtIndex:relif->r_symbolnum] setVal:relif->r_address];
+			}
+#ifdef DEBUG			
+			else			
+				NSLog(@"Error: unknown relocation (%08x) entry %d type: pcrel %d, extern %d, type %d\n",relif->r_address,i,relif->r_pcrel,relif->r_extern,relif->r_type);
+#endif				
+		}
+	}
+}
+
+- (void)fixupIndirectSymbols
+{
+	CDLCSymbolTable* sym = self.symbolTable; //[self sym];
+	NSArray *dsym = self.dynamicSymbolTable.indices; //[[self dsym] indices];
+    
+	int i;
+	for (i=0;i<[_loadCommands count];i++)
+	{
+		if ([[_loadCommands objectAtIndex:i] isKindOfClass:[CDLCSegment class]])
+		{
+			int j;
+			for (j=0;j<[[[_loadCommands objectAtIndex:i] sections] count];j++)
+			{
+                int count=0, n = 0, stride = 0;
+                NSUInteger addr=0;
+                
+                if ([[[[_loadCommands objectAtIndex:i] sections] objectAtIndex:j] isKindOfClass:[CDSection32 class]])
+                {
+                    CDSection32* sect = [[[_loadCommands objectAtIndex:i] sections] objectAtIndex:j];
+                    addr=[sect addr];
+                    if ([sect secttype]==S_SYMBOL_STUBS)				
+                        stride = (int)[sect res2];
+                    else if (([sect secttype]==S_LAZY_SYMBOL_POINTERS)||([sect secttype]==S_NON_LAZY_SYMBOL_POINTERS))
+                        stride = sizeof(unsigned long);
+                    else continue;
+                    
+                    if (stride==0)
+                    {
+                        NSLog(@"Error finding indirect symbols for %@,%@\n",[sect segmentName],[sect sectionName]);
+                        continue;
+                    }
+                    
+                    count = (int)([sect size] / stride);
+                    n = (int)[sect res1];
+                    if ((n>[dsym count])||(n+count>[dsym count]))
+                        NSLog(@"Error: entries extend past end of indirect symbol table\n");
+                }
+                else if ([[[[_loadCommands objectAtIndex:i] sections] objectAtIndex:j] isKindOfClass:[CDSection64 class]])
+                {
+                    CDSection64* sect = [[[_loadCommands objectAtIndex:i] sections] objectAtIndex:j];
+                    addr=[sect addr];
+                    if ([sect secttype]==S_SYMBOL_STUBS)				
+                        stride = (int)[sect res2];
+                    else if (([sect secttype]==S_LAZY_SYMBOL_POINTERS)||([sect secttype]==S_NON_LAZY_SYMBOL_POINTERS))
+                        stride = sizeof(unsigned long);
+                    else continue;
+                    
+                    if (stride==0)
+                    {
+                        NSLog(@"Error finding indirect symbols for %@,%@\n",[sect segmentName],[sect sectionName]);
+                        continue;
+                    }
+                    
+                    count = (int)([sect size] / stride);
+                    n = (int)[sect res1];
+                    if ((n>[dsym count])||(n+count>[dsym count]))
+                        NSLog(@"Error: entries extend past end of indirect symbol table\n");
+                }
+                
+                if (([[[[_loadCommands objectAtIndex:i] sections] objectAtIndex:j] isKindOfClass:[CDSection32 class]]) ||
+                     ([[[[_loadCommands objectAtIndex:i] sections] objectAtIndex:j] isKindOfClass:[CDSection64 class]]))
+                {
+                    for(int k=0; k<count && n+k <[dsym count]; k++)
+                    {
+                        if ((k+n < [dsym count]) && (k+n >=0))
+                        {
+                            NSInteger curIndex = [[dsym objectAtIndex:k+n] longValue];
+                            
+                            if (curIndex==INDIRECT_SYMBOL_LOCAL
+                                || curIndex==INDIRECT_SYMBOL_ABS
+                                || curIndex==(INDIRECT_SYMBOL_ABS|INDIRECT_SYMBOL_LOCAL))
+                                continue;
+                            
+                            // this updates the indirectly addressed symbol in the table with it's determined address
+                            if ((curIndex < [sym.symbols count]) && (curIndex >=0))
+                            {
+                                //NSLog(@"curIndex found! (curIndex: %ld [[sym symbols] count]: %ld)", curIndex, [[sym symbols] count]);
+                                // assuming that 0 means symbol has not been fixed-up
+                                if ([(CDSymbol *)[[sym symbols] objectAtIndex:curIndex] value]==0)
+                                    [(CDSymbol *)[[sym symbols] objectAtIndex:curIndex] setValue:addr+k*stride];
+                                else
+                                {
+                                    CDSymbol *thisSymbol = [[CDSymbol alloc] initWithValue:addr+k*stride name:[[NSString alloc] initWithString:[[[sym symbols] objectAtIndex:curIndex] name]]];
+                                    [(NSMutableArray *)sym.symbols addObject:thisSymbol];
+                                }
+                                
+                                // produces essentially same output as otool -Iv
+                                //NSLog(@"0x%08x %@\n",[sect addr]+k*stride,[dsym objectAtIndex:k+n]);
+                            }
+                            else 
+                            {
+                                //NSLog(@"Warning!: curIndex not found! (curIndex: %ld [[sym symbols] count]: %ld)", curIndex, [[sym symbols] count]);
+                            }
+                        }
+                        else 
+                        {
+                            NSLog(@"Warning!: dsym not found! (k: %d n: %d dsym count: %ld)", k, n, [dsym count]);
+                        }
+                    }
+                }
+			}
+		}
+	}
+}
+
+- (CDLCSymbolTable*)sym
+{
+	int i;
+	for (i=0;i<[_loadCommands count];i++)
+	{
+		if ([[_loadCommands objectAtIndex:i] isKindOfClass:[CDLCSymbolTable class]])
+			break;
+	}
+	return [_loadCommands objectAtIndex:i];
+}
+
+- (CDLCDynamicSymbolTable*)dsym
+{
+	int i;
+	for (i=0;i<[_loadCommands count];i++)
+	{
+		if ([[_loadCommands objectAtIndex:i] isKindOfClass:[CDLCDynamicSymbolTable class]])
+			break;
+	}
+	return [_loadCommands objectAtIndex:i];
+}
+
+- (const void *)pointerFromVMAddr:(unsigned long)vmaddr;
+{
+    return [self pointerFromVMAddr:vmaddr segmentName:nil]; // Any segment is fine
+}
+
+- (const void *)pointerFromVMAddr:(unsigned long)vmaddr segmentName:(NSString *)aSegmentName;
+{
+    CDLCSegment *segment;
+    const void *ptr;
+    
+    if (vmaddr == 0)
+        return NULL;
+    
+    segment = [self segmentContainingAddress:vmaddr];
+    if (segment == NULL) {
+        [self foo];
+        //NSLog(@"load commands: %@", [_loadCommands description]);
+        NSLog(@"pointerFromVMAddr:, vmaddr: %lu, segment: %@", vmaddr, segment);
+		return NULL;
+    }
+    //NSLog(@"[segment name]: %@", [segment name]);
+    if (aSegmentName != nil && [[segment name] isEqual:aSegmentName] == NO) {
+        //[self showWarning:[NSString stringWithFormat:@"addr %p in segment %@, required segment is %@", vmaddr, [segment name], aSegmentName]];
+        return NULL;
+    }	
+#if 0
+    NSLog(@"vmaddr: %p, [data bytes]: %p, [segment fileoff]: %d, [segment segmentOffsetForVMAddr:vmaddr]: %d",
+          vmaddr, [data bytes], [segment fileoff], [segment segmentOffsetForVMAddr:vmaddr]);
+#endif
+    ptr = [self.data bytes] + archiveOffset + (vmaddr - [segment vmaddr] + [segment fileoff]);
+    //ptr = [data bytes] + [segment fileoff] + [segment segmentOffsetForVMAddr:vmaddr];
+    return ptr;
+}
+
+- (void)foo;
+{
+    NSLog(@"busted");
 }
 
 @end

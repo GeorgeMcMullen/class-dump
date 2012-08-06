@@ -60,6 +60,16 @@ NSString *const ObjCClassSymbolPrefix = @"_OBJC_CLASS_$_";
     return self;
 }
 
+- (id)initWithValue:(unsigned long)offset name:(NSString*)inname
+{
+    if ([super init] == nil)
+        return nil;
+	_name = inname;
+	//valCopy = offset;
+    _nlist.n_value = offset;
+	return self;
+}
+
 #pragma mark - Debugging
 
 - (NSString *)description;
@@ -79,10 +89,17 @@ NSString *const ObjCClassSymbolPrefix = @"_OBJC_CLASS_$_";
 
 @synthesize machOFile = nonretained_machOFile;
 
-- (uint64_t)value;
+- (uint64_t)value
 {
     return _nlist.n_value;
 }
+
+- (void)setValue:(uint64_t)value
+{
+    _nlist.n_value=value;
+}
+
+//@synthesize name;
 
 - (CDSection *)section
 {

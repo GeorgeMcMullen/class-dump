@@ -18,4 +18,7 @@
 - (BOOL)containsAddress:(NSUInteger)address;
 - (NSUInteger)fileOffsetForAddress:(NSUInteger)address;
 
+- (long)secttype;
+- (long)res2;
+- (long)res1;
 @end

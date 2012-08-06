@@ -39,7 +39,12 @@ extern NSString *const ObjCClassSymbolPrefix;
 @property (nonatomic, readonly) NSString *shortTypeDescription;
 @property (nonatomic, readonly) NSString *longTypeDescription;
 
+- (id)initWithValue:(unsigned long)offset name:(NSString*)inname;
+
 - (NSComparisonResult)compare:(CDSymbol *)aSymbol;
 - (NSComparisonResult)nameCompare:(CDSymbol *)aSymbol;
+
+- (uint64_t)value;
+- (void)setValue:(uint64_t)value;
 
 @end

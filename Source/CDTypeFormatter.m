@@ -305,4 +305,61 @@ static BOOL debug = NO;
     [self.typeController typeFormatter:self didReferenceClassName:name];
 }
 
+- (NSArray *)methodArgs:(NSString *)methodName type:(NSString *)type;
+{
+    CDTypeParser *aParser;
+    NSArray *methodTypes;
+	NSMutableArray* methodArgs = [NSMutableArray array];	
+
+    
+    NSError *error = nil;
+    
+    aParser = [[CDTypeParser alloc] initWithType:type];
+    methodTypes = [aParser parseMethodType:&error];
+    if (methodTypes == nil)
+        NSLog(@"Warning: Parsing method types failed, %@", methodName);
+    
+    if (methodTypes == nil || [methodTypes count] == 0) {
+        return nil;
+    }
+    
+    {
+        NSUInteger count;
+        int index;
+        BOOL noMoreTypes;
+        CDMethodType *aMethodType;
+        NSScanner *scanner;
+        NSString *specialCase;
+        
+        count = [methodTypes count];
+        index = 3;
+        noMoreTypes = NO;
+        
+        scanner = [[NSScanner alloc] initWithString:methodName];
+        while ([scanner isAtEnd] == NO) {
+			[scanner scanUpToString:@":" intoString:nil];
+            if ([scanner scanString:@":" intoString:nil] == YES) {
+                NSString *typeString;
+                if (index >= count) {
+                    noMoreTypes = YES;
+                } else {
+                    aMethodType = [methodTypes objectAtIndex:index];
+                    specialCase = [self _specialCaseVariable:nil type:[[aMethodType type] bareTypeString]];
+                    if (specialCase != nil)
+						[methodArgs addObject:specialCase];
+                    else {
+                        typeString = [[aMethodType type] formattedString:nil formatter:self level:0];
+						[methodArgs addObject:typeString];
+                    }
+                    index++;
+                }
+            }
+        }
+        if (noMoreTypes == YES)
+            NSLog(@" /* Error: Ran out of types for this method. */");
+    }
+	NSLog(@"%@",methodArgs);		
+    return methodArgs;
+}
+
 @end
